@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Result of the news</title>
+</head>
+<script src="https://apis.google.com/js/api.js"></script>
+<script>
+  /**
+   * Sample JavaScript code for factchecktools.claims.search
+   * See instructions for running APIs Explorer code samples locally:
+   * https://developers.google.com/explorer-help/guides/code_samples#javascript
+   */
+
+  function loadClient() {
+    gapi.client.setApiKey("AIzaSyCyrCUWNqCbKF4OqdimqQFDmMtDQTs8Go8");
+    return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/factchecktools/v1alpha1/rest")
+        .then(function() { console.log("GAPI client loaded for API"); },
+              function(err) { console.error("Error loading GAPI client for API", err); });
+  }
+  // Make sure the client is loaded before calling this method.
+  function execute() {
+    return gapi.client.factchecktools.claims.search({
+      "languageCode": "en",
+      "query": "Vijay mallay returns to india"
+    })
+        .then(function(response) {
+                // Handle the results here (response.result has the parsed body).
+                console.log("Response", response);
+              },
+              function(err) { console.error("Execute error", err); });
+  }
+  gapi.load("client");
+</script>
+
+<body>
+	<button onclick="loadClient()">load</button>
+	<button onclick="execute()">execute</button>
+</body>
+
+</html>

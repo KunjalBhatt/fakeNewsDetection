@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<meta charset="ISO-8859-1">
+<title>Top News</title>
+</head>
+<body>
+<!-- dropdown -->	
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Select Country
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+    <button class="dropdown-item" onclick="sendCNname('in','India')" type="button">India</button>
+    <button class="dropdown-item" onclick="sendCNname('us','Usa')" type="button">Usa</button>
+    <button class="dropdown-item" onclick="sendCNname('au','Australia')" type="button">Australia</button>
+    <button class="dropdown-item" onclick="sendCNname('ru','Russia')" type="button">Russia</button>
+    <button class="dropdown-item" onclick="sendCNname('br','Brazil')" type="button">Brazil</button>
+	<button class="dropdown-item" onclick="sendCNname('uk','England')" type="button">England</button>
+   	<button class="dropdown-item" onclick="sendCNname('nz','New Zealand')" type="button">New Zealand</button>  
+  </div>
+</div>
+<span id="showcn"></span>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ 	<br>
+ 	<br>
+  <!-- Collapsible news -->
+  <div id="accordion">
+  <!--  <div class="card">
+			 <div class="card-header" id="headingOne">
+				  <h5 class="mb-0">
+				  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+			      Collapsible Group Item #1
+		     	  </button>
+			  	 </h5>
+   		 </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+	      <div class="card-body">
+	        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+	      </div>
+	    </div>
+  </div>-->
+  
+  
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
+<script type="text/javascript">
+	function sendCNname(name,showName){
+		var data={
+			"country":name	
+			
+		};
+		$.ajax({
+			url:"showNews",
+			data:data,
+			type:"post",
+			success: function(resp){
+					console.log(resp);
+					var newsAccordion = document.getElementById('accordion');
+					var showCN = document.getElementById('showcn');
+					var json = JSON.parse(resp);
+					var articales=json.articles;
+					console.log(json);
+					var newsHtml = "";
+					articales.forEach(function(element,index){
+						var	news = `<div class="card">
+						    <div class="card-header" id="heading">
+						      <h5 class="mb-0">
+						       <!--  <button class="btn btn-link" data-toggle="collapse" data-target="#collapse" aria-expanded="true" aria-controls="collapse">-->
+						        `+element["title"]+`
+						        </button>
+						      </h5>
+						    </div>
+
+						    <div id="collapse" class="collapse show" aria-labelledby="heading" data-parent="#accordion">
+						      <div class="card-body">
+						       `+element["description"]+`<br><a href="`+element["url"]+`" target="_blank">Read more </a>
+						      </div>
+						    </div>
+						  </div>`;	
+						  newsHtml+=news;
+						  
+					});
+					newsAccordion.innerHTML = newsHtml;
+					showCN.innerHTML=showName;
+					if(resp=="fail"){
+						window.location.reload();
+					}
+					else{
+						
+					}
+				}
+		})
+	};
+	
+</script>
+</html>

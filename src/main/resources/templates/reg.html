@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Login / Register</title>
+  
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="assets/css/reg.css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/img/main with background.jpeg" type="image/gif" sizes="16x16">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+function matchPassword(e)
+{
+	var pw1   = document.getElementById("password").value;
+	var pw2   = document.getElementById("re_Password").value;
+	var uname = document.getElementById("username").value;
+	var mail  = document.getElementById("E-mail").value;
+	
+	if((!isNaN(uname))&&(!isNaN(mail))&&(!isNaN(pw1))&&(!isNaN(pw2))){
+		document.getElementById("uname").innerHTML = "Field is missing";
+		e.preventDefault();
+	}
+	 if(pw1.length < 8){
+		document.getElementById("problem").innerHTML = "Enter minimum 8 characters";
+		e.preventDefault();
+	}
+	 if(pw1.lengqth > 15){
+		document.getElementById("problem").innerHTML = "Characters are too much";
+		e.preventDefault();
+	}
+	 if(pw1 != pw2){
+		document.getElementById("wrongPass").innerHTML = "Passwords are not same";
+		e.preventDefault();
+	}
+	
+}
+</script>
+<script type="text/javascript">
+ 	function chcking(){
+ 		var Param={
+ 			"email":$("#email").val(),
+ 			"pass":$("#pass").val()
+ 		};
+ 		console.log(Param);
+ 		$.ajax({
+ 			url : "checking",
+ 			data : Param,
+ 			type: "GET",
+ 			success: function(response){
+ 				if (response == "fail"){
+ 					$("#wrongDetails").show();
+ 				}
+ 				else{
+ 					$("#wrongDetails").hide();
+ 					window.location.href="homePage";
+ 				}
+ 				
+ 			}
+ 		});
+ 	};
+ 	
+ </script>
+</head>
+<body>
+  <div class="cont">
+  
+  <!-- Sign in code starts -->
+  
+    <div class="form sign-in">
+ 
+      <h2>Sign In</h2>
+      <label>
+        <span>Email Address</span>
+        <input type="email" name="email" id="email">
+      </label>
+      <label>
+        <span>Password</span>
+        <input type="password" name="password" id="pass" >
+      </label>
+      <div id="wrongDetails">Invalid Username or Password</div>
+      <button class="submit"  onclick ="chcking()">Sign In</button>
+     
+      <p class="forgot-pass" ><a href="Mail">Forgot Password ?</a></p>
+
+      <div class="social-media">
+        <ul>
+          <li><img src="assets/social/facebook.png"></li>
+          <li><img src="assets/social/twitter.png"></li>
+          <li><img src="assets/social/linkedin.png"></li>
+          <li><img src="assets/img/klipartz.com.png"></li>
+         
+        </ul>
+      </div>
+      
+    </div>
+
+    <div class="sub-cont">
+      <div class="img">
+        <div class="img-text m-up">
+          <h2>New here?</h2>
+          <p>Sign up and discover great amount of new opportunities!</p>
+        </div>
+        <div class="img-text m-in">
+          <h2>One of us?</h2>
+          <p>If you already has an account, just sign in. We've missed you!</p>
+        </div>
+        <div class="img-btn">
+          <span class="m-up">Sign Up</span>
+          <span class="m-in">Sign In</span>
+        </div>
+      </div>
+      
+      <!-- Sign up code starts -->
+      
+      <div class="form sign-up">
+      <form action="saveData" method="POST">
+        <h2>Sign Up</h2>
+        <label>
+          <span>Name</span>
+          <input type="text" id="username" name="userName" required/>
+	      <span id="uname" style="color:red"></span>
+        </label>
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" id="E-mail" required/>
+	       <span id="mail" style="color:red"></span>
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" name="password" id="password" required/>
+			 <span id="problem" style="color:red"></span>	
+        </label>
+        <label>
+          <span>Confirm Password</span>
+          <input type="password" name="re_Password" id="re_Password" required/>
+	      <span id="wrongPass" style="color:red" ></span>
+        </label>
+        <input type="submit" onclick="matchPassword(event)" value="Sign Up Now" class="submit">
+      	</form>
+      </div>
+    </div>
+
+  </div>
+<script type="text/javascript" src="assets/js/script.js"></script>
+</body>
+</html>

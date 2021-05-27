@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Polling</title>
+</head>
+<body>
+	<p th:text="${session.userName}"></p>
+	<p th:text="${session.userId}"></p>
+	<ol>
+		<li th:each="News:${News}">
+			<span th:text="${News.News}"></span><br>
+			Accuracy: <Span th:text="${News.Accuracy}"></Span><br>
+			<button th:onclick="|action('True',${News.News_id})|">True</button>
+			<span th:text="${News.like_count}"></span><br>
+			<button th:onclick="|action('False',${News.News_id})|">False</button>
+			<span th:text="${News.dislike_count}"></span><br>
+			<textarea id="comment" name="commentText" rows="4" cols="50"></textarea>
+			<br><button th:onclick="|submit(this,${News.News_id})|">Submit</button>
+		</li>
+	</ol>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+function action(actionType,newsId){
+	// 	alert(actionType+" "+newsId);
+	 
+	var data={
+			"result" : actionType,
+			"id" : newsId
+	};
+	
+	$.ajax({
+		url:"newsrs",
+		data: data,
+		type : "post",
+		success: function(resp){
+			if(resp=="fail"){
+				
+			}
+			else{
+				window.location.reload();
+			}
+		}
+	})
+};
+function submit(ele,newsId){
+	var comment = $.trim($(ele).closest("li").find("#comment").val());
+	
+	var data={
+		"newsId": newsId,
+		"comment" : comment
+	};
+	$.ajax({
+		url : "submmitescomment",
+		data:data,
+		type:"post",
+		
+		success: function(resp){
+			if(resp=="fail"){
+				
+			}
+			else{
+				window.location.reload();
+			}
+		}
+	})
+};
+
+</script>
+</body>
+</html>

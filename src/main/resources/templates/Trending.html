@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=""http://www.thymeleaf.org"">
+<head>
+<meta charset="ISO-8859-1">
+<title>Trending</title>
+</head>
+<body>
+	<ol>
+		<li th:each="data:${data}">
+		<span th:text="${data.News}"></span><br>
+		Accuracy: <Span th:text="${data.Accuracy}"></Span></li>
+	</ol>
+</body>
+</html>
